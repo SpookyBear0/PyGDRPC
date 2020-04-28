@@ -8,12 +8,21 @@ from pyfiglet import figlet_format
 VERSION = "1.1.2"
 cprint(figlet_format('PyGDRPC', font='small'))
 print(f"PyGDRPC v{VERSION} \nStarting...")
+
+def Wait (time, silent=False):
+    str = f"timeout /t {str(time)}"
+    if silent:
+        str = str + " >nul"
+    
+    os.system(str)
+
 try:
     memory = gd.memory.get_memory()
 except RuntimeError:
-    print("Open Geometry Dash before running this!")
-    os.system("PAUSE")
+    print("Run GD first!")
+    Wait(10, True)
     exit()
+
 smallimage = "none" # fallback in case of the difficulty face not being returned
 client = gd.Client() 
 client_id = '703049428822655048'
@@ -23,7 +32,8 @@ print("Connecting...")
 try:
     RPC.connect()
 except:
-    print("Failed to connect to discord, try reopening it?")
+    print("Failed to connect to Discord!")
+    Wait(10, True)
 else:
     print("Connected successfully!")
 
